@@ -47,24 +47,25 @@ def forecast_with_confidence(data, order, steps=48, confidence=0.95):
     return forecasts, conf_int.iloc[:, 0], conf_int.iloc[:, 1]
 
 # Plot function
-def plot_forecast_with_ci(historical_data, test_data, forecasts, lower_ci, upper_ci, title="Forecast with Confidence Intervals"):
-    plt.figure(figsize=(12, 6))
-    plt.plot(historical_data.index, historical_data.values, label='Historical Data', color='blue')
-    plt.plot(test_data.index, test_data, label='Actual Test Data', color='green')
+def plot_forecast_with_ci(historical_data, test_data, forecasts, lower_ci, upper_ci, title="Forecast with Confidence Intervals", plot: bool = False):
+    if plot:
+        plt.figure(figsize=(12, 6))
+        plt.plot(historical_data.index, historical_data.values, label='Historical Data', color='blue')
+        plt.plot(test_data.index, test_data, label='Actual Test Data', color='green')
     
-    forecast_index = test_data.index
-    plt.plot(forecast_index, forecasts, 'r-', label='Forecast')
-    plt.fill_between(forecast_index, lower_ci, upper_ci, color='r', alpha=0.2, label='95% CI')
+        forecast_index = test_data.index
+        plt.plot(forecast_index, forecasts, 'r-', label='Forecast')
+        plt.fill_between(forecast_index, lower_ci, upper_ci, color='r', alpha=0.2, label='95% CI')
 
-    plt.axvline(x=test_data.index[0], color='black', linestyle='--', label="Test Data Start")
-    plt.title(title)
-    plt.xlabel('Date')
-    plt.ylabel('Value')
-    plt.legend()
-    plt.xticks(rotation=45)
-    plt.tight_layout()
-    plt.savefig(f'{title}.png')
-    plt.show()
+        plt.axvline(x=test_data.index[0], color='black', linestyle='--', label="Test Data Start")
+        plt.title(title)
+        plt.xlabel('Date')
+        plt.ylabel('Value')
+        plt.legend()
+        plt.xticks(rotation=45)
+        plt.tight_layout()
+        plt.savefig(f'{title}.png')
+        plt.show()
 
 # Main workflow
 url = "https://raw.githubusercontent.com/kylejones200/time_series/refs/heads/main/ercot_load_data.csv"
