@@ -10,7 +10,6 @@ import logging
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-import warnings
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(
@@ -20,7 +19,6 @@ logging.basicConfig(
 
 
 
-warnings.filterwarnings("ignore")
 
 # Load and preprocess data
 def load_and_preprocess_data(url):
