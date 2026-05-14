@@ -1,7 +1,7 @@
 # Confidence Intervals for Time Series Forecasts with Python
 
-**Published:** 2025-02-02
-**Medium:** [https://medium.com/@kyle-t-jones/confidence-intervals-for-time-series-forecasts-with-python-95d2d3f81415](https://medium.com/@kyle-t-jones/confidence-intervals-for-time-series-forecasts-with-python-95d2d3f81415)
+Published: 2025-02-02
+Medium: [https://medium.com/@kyle-t-jones/confidence-intervals-for-time-series-forecasts-with-python-95d2d3f81415](https://medium.com/@kyle-t-jones/confidence-intervals-for-time-series-forecasts-with-python-95d2d3f81415)
 
 ## About
 

@@ -1,6 +1,6 @@
 # Confidence Intervals for Time Series Forecasts with Python Best practices for confidence intervals in time series analysis
 
-### **Confidence Intervals for Time Series Forecasts with Python** 
+### Confidence Intervals for Time Series Forecasts with Python 
 
 #### Best practices for confidence intervals in time series analysis
 Understanding the uncertainty in our forecasts is just as important as the forecasts themselves. While point predictions tell us our best estimate of future values, confidence intervals help us understand the range of likely outcomes.
