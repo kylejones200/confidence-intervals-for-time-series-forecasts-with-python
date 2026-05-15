@@ -87,8 +87,8 @@ def inverse_transform_and_flatten(scaler, data):
     return scaler.inverse_transform(np.array(data).reshape(-1, 1)).flatten()
 
 
-forecasts, lower_ci, upper_ci = map(lambda x: inverse_transform_and_flatten(scaler, x), [forecasts, lower_ci, upper_ci])
-boot_forecasts, boot_lower_ci, boot_upper_ci = map(lambda x: inverse_transform_and_flatten(scaler, x), [boot_forecasts, boot_lower_ci, boot_upper_ci])
+forecasts, lower_ci, upper_ci = (inverse_transform_and_flatten(scaler, x) for x in [forecasts, lower_ci, upper_ci])
+boot_forecasts, boot_lower_ci, boot_upper_ci = (inverse_transform_and_flatten(scaler, x) for x in [boot_forecasts, boot_lower_ci, boot_upper_ci])
 test_data_original = inverse_transform_and_flatten(scaler, test_data)
 
 
@@ -124,7 +124,7 @@ def bootstrap_forecast_ci(model_order, data, steps=48, n_bootstraps=100, confide
 # Bootstrapped confidence intervals
 boot_forecasts, boot_lower_ci, boot_upper_ci = bootstrap_forecast_ci(best_order, train_data, steps=48, n_bootstraps=50)
 
-boot_forecasts, boot_lower_ci, boot_upper_ci = map(lambda x: inverse_transform_and_flatten(scaler, x), [boot_forecasts, boot_lower_ci, boot_upper_ci])
+boot_forecasts, boot_lower_ci, boot_upper_ci = (inverse_transform_and_flatten(scaler, x) for x in [boot_forecasts, boot_lower_ci, boot_upper_ci])
 
 # Plot results
 plot_forecast_with_ci(df['values'], test_data_original_series, boot_forecasts, boot_lower_ci, boot_upper_ci, title="Bootstrapped Forecast with Confidence Intervals")
