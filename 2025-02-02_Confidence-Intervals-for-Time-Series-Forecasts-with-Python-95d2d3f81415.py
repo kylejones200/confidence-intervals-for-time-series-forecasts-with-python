@@ -54,33 +54,35 @@ def plot_forecast_with_ci(
     title="Forecast with Confidence Intervals",
     plot: bool = False,
 ):
-    if plot:
-        plt.figure(figsize=(12, 6))
-        plt.plot(
-            historical_data.index,
-            historical_data.values,
-            label="Historical Data",
-            color="blue",
-        )
-        plt.plot(test_data.index, test_data, label="Actual Test Data", color="green")
+    if not plot:
+        return
 
-        forecast_index = test_data.index
-        plt.plot(forecast_index, forecasts, "r-", label="Forecast")
-        plt.fill_between(
-            forecast_index, lower_ci, upper_ci, color="r", alpha=0.2, label="95% CI"
-        )
+    plt.figure(figsize=(12, 6))
+    plt.plot(
+        historical_data.index,
+        historical_data.values,
+        label="Historical Data",
+        color="blue",
+    )
+    plt.plot(test_data.index, test_data, label="Actual Test Data", color="green")
 
-        plt.axvline(
-            x=test_data.index[0], color="black", linestyle="--", label="Test Data Start"
-        )
-        plt.title(title)
-        plt.xlabel("Date")
-        plt.ylabel("Value")
-        plt.legend()
-        plt.xticks(rotation=45)
-        plt.tight_layout()
-        plt.savefig(f"{title}.png")
-        plt.show()
+    forecast_index = test_data.index
+    plt.plot(forecast_index, forecasts, "r-", label="Forecast")
+    plt.fill_between(
+        forecast_index, lower_ci, upper_ci, color="r", alpha=0.2, label="95% CI"
+    )
+
+    plt.axvline(
+        x=test_data.index[0], color="black", linestyle="--", label="Test Data Start"
+    )
+    plt.title(title)
+    plt.xlabel("Date")
+    plt.ylabel("Value")
+    plt.legend()
+    plt.xticks(rotation=45)
+    plt.tight_layout()
+    plt.savefig(f"{title}.png")
+    plt.show()
 
 
 # Main workflow
