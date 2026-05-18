@@ -1,6 +1,5 @@
 # Description: Short example for Confidence Intervals for Time Series Forecasts with Python.
 
-
 import logging
 
 import matplotlib.pyplot as plt
@@ -25,10 +24,8 @@ def load_and_preprocess_data(url):
     df.set_index("date", inplace=True)
     df = df.resample("h").mean().asfreq("h")
     df["values"] = df["values"].interpolate()
-
     scaler = StandardScaler()
     df["scaled_values"] = scaler.fit_transform(df[["values"]])
-
     return df, scaler
 
 
@@ -36,11 +33,9 @@ def load_and_preprocess_data(url):
 def forecast_with_confidence(data, order, steps=48, confidence=0.95):
     model = ARIMA(data, order=order)
     fitted_model = model.fit()
-
     forecast_result = fitted_model.get_forecast(steps=steps)
     forecasts = forecast_result.predicted_mean
     conf_int = forecast_result.conf_int(alpha=1 - confidence)
-
     return forecasts, conf_int.iloc[:, 0], conf_int.iloc[:, 1]
 
 
@@ -65,16 +60,10 @@ def plot_forecast_with_ci(
         color="blue",
     )
     plt.plot(test_data.index, test_data, label="Actual Test Data", color="green")
-
     forecast_index = test_data.index
     plt.plot(forecast_index, forecasts, "r-", label="Forecast")
-    plt.fill_between(
-        forecast_index, lower_ci, upper_ci, color="r", alpha=0.2, label="95% CI"
-    )
-
-    plt.axvline(
-        x=test_data.index[0], color="black", linestyle="--", label="Test Data Start"
-    )
+    plt.fill_between(forecast_index, lower_ci, upper_ci, color="r", alpha=0.2, label="95% CI")
+    plt.axvline(x=test_data.index[0], color="black", linestyle="--", label="Test Data Start")
     plt.title(title)
     plt.xlabel("Date")
     plt.ylabel("Value")
@@ -86,7 +75,9 @@ def plot_forecast_with_ci(
 
 
 # Main workflow
-url = "https://raw.githubusercontent.com/kylejones200/time_series/refs/heads/main/ercot_load_data.csv"
+url = (
+    "https://raw.githubusercontent.com/kylejones200/time_series/refs/heads/main/ercot_load_data.csv"
+)
 df, scaler = load_and_preprocess_data(url)
 
 train_data = df["scaled_values"].iloc[:-48]
@@ -100,9 +91,7 @@ best_order = auto_model.order
 logger.info(f"Using ARIMA order: {best_order}")
 
 # ARIMA forecast with confidence intervals
-forecasts, lower_ci, upper_ci = forecast_with_confidence(
-    train_data, best_order, steps=48
-)
+forecasts, lower_ci, upper_ci = forecast_with_confidence(train_data, best_order, steps=48)
 
 # Bootstrapped confidence intervals
 boot_forecasts, boot_lower_ci, boot_upper_ci = bootstrap_forecast_ci(
@@ -118,11 +107,9 @@ forecasts, lower_ci, upper_ci = (
     inverse_transform_and_flatten(scaler, x) for x in [forecasts, lower_ci, upper_ci]
 )
 boot_forecasts, boot_lower_ci, boot_upper_ci = (
-    inverse_transform_and_flatten(scaler, x)
-    for x in [boot_forecasts, boot_lower_ci, boot_upper_ci]
+    inverse_transform_and_flatten(scaler, x) for x in [boot_forecasts, boot_lower_ci, boot_upper_ci]
 )
 test_data_original = inverse_transform_and_flatten(scaler, test_data)
-
 
 test_data_original_series = pd.Series(test_data_original, index=test_data.index)
 
@@ -146,11 +133,8 @@ plot_forecast_with_ci(
 
 
 # Bootstrap-based forecast confidence intervals
-def bootstrap_forecast_ci(
-    model_order, data, steps=48, n_bootstraps=100, confidence=0.95
-):
+def bootstrap_forecast_ci(model_order, data, steps=48, n_bootstraps=100, confidence=0.95):
     forecasts = []
-
     for i in range(n_bootstraps):
         try:
             bootstrap_sample = data.sample(n=len(data), replace=True).sort_index()
@@ -167,7 +151,6 @@ def bootstrap_forecast_ci(
     lower_ci = np.percentile(forecasts, (1 - confidence) / 2 * 100, axis=0)
     upper_ci = np.percentile(forecasts, (1 + confidence) / 2 * 100, axis=0)
     mean_forecast = np.mean(forecasts, axis=0)
-
     return mean_forecast, lower_ci, upper_ci
 
 
@@ -177,8 +160,7 @@ boot_forecasts, boot_lower_ci, boot_upper_ci = bootstrap_forecast_ci(
 )
 
 boot_forecasts, boot_lower_ci, boot_upper_ci = (
-    inverse_transform_and_flatten(scaler, x)
-    for x in [boot_forecasts, boot_lower_ci, boot_upper_ci]
+    inverse_transform_and_flatten(scaler, x) for x in [boot_forecasts, boot_lower_ci, boot_upper_ci]
 )
 
 # Plot results
